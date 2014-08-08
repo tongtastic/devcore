@@ -19,14 +19,12 @@ $args = array(
 						'name' => 'Text',
 						'desc' => 'Test text box',
 						'id' => 'text',
-						'class' => 'text',
 						'type' => 'text',
 					),
 					array(
 						'name' => 'Text area',
 						'desc' => 'Test text area',
 						'id' => 'textarea',
-						'class' => 'textarea',
 						'type' => 'textarea',
 						'rich_editor' => 0
 					),
@@ -34,7 +32,6 @@ $args = array(
 						'name' => 'Text area RTE',
 						'desc' => 'Test text area RTE',
 						'id' => 'textarearte',
-						'class' => 'textarearte',
 						'type' => 'textarea',
 						'rich_editor' => 1
 					),
@@ -42,7 +39,6 @@ $args = array(
 						'name' => 'Select',
 						'desc' => 'Test select box',
 						'id' => 'select',
-						'class' => 'select',
 						'type' => 'select',
 						'options' => array(
 							'Test 1' => 'test1',
@@ -54,8 +50,13 @@ $args = array(
 						'name' => 'Upload',
 						'desc' => 'Test upload box',
 						'id' => 'upload',
-						'class' => 'upload',
 						'type' => 'upload',
+					),
+					array(
+						'name' => 'Repeatable Upload',
+						'desc' => 'Test repeatable upload box',
+						'id' => 'repeatableupload',
+						'type' => 'repeatable-upload',
 					)
 				)
 			)

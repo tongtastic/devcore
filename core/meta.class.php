@@ -143,8 +143,10 @@ class Meta {
 				case 'text' :
 
 					$data .= '<div class="text-field-wrapper" id="wrapper-'.$meta_box_field['id'].'"">';
+
+						$data .= '<h4>'.stripslashes($meta_box_field['name']).'</h4>';
 	
-						$data .= '<input type="text" name="'.$meta_box_field['id'].'" class="'.$meta_box_field['class']. '" value="'.$meta.'" />';
+						$data .= '<input type="text" name="'.$meta_box_field['id'].'" id="field-'.$meta_box_field['id'].'" value="'.$meta.'" />';
 
 						$data .= '<p>'.stripslashes($meta_box_field['desc']).'</p>';
 
@@ -156,9 +158,11 @@ class Meta {
 
 					$data .= '<div class="textarea-field-wrapper" id="wrapper-'.$meta_box_field['id'].'"">';
 
+						$data .= '<h4>'.stripslashes($meta_box_field['name']).'</h4>';
+
 						if($meta_box_field['rich_editor'] == 0) {
 		
-							$data .= '<textarea name="'.$meta_box_field['id'].'" class="'.$meta_box_field['class'].'">'.$meta.'</textarea>';
+							$data .= '<textarea name="'.$meta_box_field['id'].'" id="field-'.$meta_box_field['id'].'">'.$meta.'</textarea>';
 
 						} else {
 
@@ -175,13 +179,18 @@ class Meta {
 				case 'checkbox':
 
 					$data .= '<div class="checkbox-field-wrapper" id="wrapper-'.$meta_box_field['id'].'"">';
+
+						$data .= '<h4>'.stripslashes($meta_box_field['name']).'</h4>';
 				
-						$data .= '<input type="checkbox" name="'.$meta_box_field['id'].'" class="'.$meta_box_field['class']. '"';
+						$data .= '<input type="checkbox" name="'.$meta_box_field['id'].'" id="field-'.$meta_box_field['id'].'"';
+
 						if($meta == 'on') {
 						
 							$data .= ' checked="checked"';
 							
 						}
+
+						$data .= ' />';
 						
 						$data .= '<p>'.stripslashes($meta_box_field['desc']).'</p>';
 
@@ -192,8 +201,10 @@ class Meta {
 				case 'select':
 
 					$data .= '<div class="select-field-wrapper" id="wrapper-'.$meta_box_field['id'].'"">';
+
+						$data .= '<h4>'.stripslashes($meta_box_field['name']).'</h4>';
 									
-						$data .= '<select name="'.$meta_box_field['id'].'">';
+						$data .= '<select name="'.$meta_box_field['id'].'" id="field-'.$meta_box_field['id'].'">';
 						
 						$data .= '<option value="" selected="selected">Please select an option</option>';
 						
@@ -222,14 +233,64 @@ class Meta {
 				case 'upload' :
 
 					$data .= '<div class="upload-field-wrapper" id="wrapper-'.$meta_box_field['id'].'">';
-				
-						$data .= '<input type="text" class="upload_field" id="'.$meta_box_field['id'].'" name="'.$meta_box_field['id'].'" value="'.$meta .'" />';
 
-						$data .= '<input class="upload_button button-secondary" type="button" value="Upload" />';
+						$data .= '<h4>'.stripslashes($meta_box_field['name']).'</h4>';
+				
+						$data .= '<input type="text" class="upload_field" id="field-'.$meta_box_field['id'].'" name="'.$meta_box_field['id'].'" value="'.$meta .'" />';
+
+						$data .= '<input class="upload_button button-primary" type="button" value="Upload" />';
 
 						$data .= '<p>'.stripslashes($meta_box_field['desc']).'</p>';
 
 						$data .= $this->upload_js($meta_box_field['id']);
+
+					$data .= '</div>';
+					
+				break;
+
+				case 'repeatable-upload' :
+
+					$data .= '<div class="repeatable-upload-field-wrapper" id="wrapper-'.$meta_box_field['id'].'">';
+
+						$data .= '<h4>'.stripslashes($meta_box_field['name']).'</h4>';
+
+						if(is_array($meta)) {
+
+							foreach($meta as $key => $value) {
+
+								$data .= '<div class="repeatable-wrapper">';
+						
+									$data .= '<input type="text" class="upload_field" name="'.$meta_box_field['id'].'[]" value="'.$meta[$key] .'" />';
+
+									$data .= '<input class="upload_button button-primary" type="button" value="Upload" />';
+
+									$data .= '<input class="remove_button button-secondary" type="button" value="Remove" />';
+
+								$data .= '</div>';
+
+							}
+
+						} else {
+
+							$data .= '<div class="repeatable-wrapper">';
+					
+								$data .= '<input type="text" class="upload_field" name="'.$meta_box_field['id'].'[]" value="'.$meta .'" />';
+
+								$data .= '<input class="upload_button button-primary" type="button" value="Upload" />';
+
+								$data .= '<input class="remove_button button-secondary" type="button" value="Remove" />';
+
+							$data .= '</div>';
+
+						}
+
+						$data .= '<input class="add_button button-secondary" type="button" value="Add another" />';
+
+						$data .= '<p>'.stripslashes($meta_box_field['desc']).'</p>';
+
+						$data .= $this->upload_js($meta_box_field['id']);
+
+						$data .= $this->repeatable_js($meta_box_field['id']);
 
 					$data .= '</div>';
 					
@@ -247,7 +308,7 @@ class Meta {
 
 		global $post;
 		
-		$meta_boxes = $this->meta_box_info;
+		$meta_boxes = $this->meta;
 				
 		foreach($meta_boxes as $meta_box) {
 			
@@ -369,6 +430,50 @@ class Meta {
 				}
 
 			}
+
+		});
+
+		</script>
+
+		";
+
+		return $data;
+
+	}
+
+	function repeatable_js($id) {
+
+		$data .= "
+
+		<script type='text/javascript'>
+
+		jQuery(document).ready(function() {
+
+			jQuery('#wrapper-".$id." .add_button').on('click', function() {
+			
+				var field = jQuery('#wrapper-".$id."').find('div.repeatable-wrapper:last').clone(true);
+
+				jQuery('input[type=text]', field).val('');
+
+				jQuery('textarea', field).text('');
+
+				var fieldLocation = jQuery('#wrapper-".$id."').find('div.repeatable-wrapper:last');
+				
+				field.insertAfter(fieldLocation, jQuery('#wrapper-".$id."'));
+				
+				return false;
+
+			});
+
+			jQuery('#wrapper-".$id." .remove_button').on('click', function() {
+		
+				var field = jQuery(this).parent();
+				
+				field.remove();
+				
+				return false;
+			
+			});
 
 		});
 
