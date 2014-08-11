@@ -102,25 +102,5 @@ class Core {
 	 
 	    return $content;
 	}
-
-	function custom_post_type($args) {
-
-		foreach($args as $arg) {
-
-			register_post_type($arg['name'], $arg['cpt_args']);
-
-			if(isset($arg['ct_args'])) {
-
-				foreach($arg['ct_args'] as $ct) {
-
-					register_taxonomy($ct['name'], $arg['name'], $ct['args']);
-
-				}
-
-			}
-
-		}
-
-	}
 		
 }

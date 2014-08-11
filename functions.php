@@ -1,10 +1,15 @@
 <?php
+// include and initialise the core class
+ 
 include('core/core.class.php');
-include('core/meta.class.php');
 
 $core = new core\Core;
 
 $core->init();
+
+// include and initialise the metabox class, then build arguments array
+
+include('core/meta.class.php');
 
 $args = array(
 	array(
@@ -57,6 +62,21 @@ $args = array(
 						'desc' => 'Test repeatable upload box',
 						'id' => 'repeatableupload',
 						'type' => 'repeatable-upload',
+						'sortable' => true
+					),
+					array(
+						'name' => 'Date picker',
+						'desc' => 'Test datepicker',
+						'id' => 'datepicker',
+						'type' => 'datepicker',
+						'format' => 'dd-mm-yy'
+					),
+					array(
+						'name' => 'Repeatable text',
+						'desc' => 'Test repeatable text',
+						'id' => 'repeatabletext',
+						'type' => 'repeatable-text',
+						'sortable' => true
 					)
 				)
 			)
@@ -67,3 +87,9 @@ $args = array(
 $meta = new core\Meta;
 
 $meta->init($args);
+
+// include and initialise Visual Composer class
+
+include('core/visualcomposer.class.php');
+
+$vc = new core\VisualComposer;

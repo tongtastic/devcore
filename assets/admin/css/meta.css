@@ -1,0 +1,90 @@
+.meta-wrapper {
+	margin: 0 0 20px;
+	padding: 20px;
+	background: #f7f7f7;
+}
+
+.meta-sortable-button:hover {
+	cursor: move;
+}
+
+.meta-editor-wrapper-bg {
+	display: none;
+	width: 100%;
+	height: 100%;
+	background: #fff;
+	position: fixed;
+	z-index: 99998;
+	left: 0;
+	top: 0;
+}
+
+.meta-editor-wrapper {
+	display: none;
+	width: 70%;
+	left: 50%;
+	margin-left: -35%;
+	top: 40px;
+	position: fixed;
+	z-index: 99999;
+}
+
+.meta-text {
+	width: 100%;
+}
+
+.meta-repeatable-wrapper .meta-text {
+	width: 70%;
+	margin-right: 10px;
+}
+
+.meta-textarea {
+	width: 100%;
+	min-height: 200px;
+}
+
+.meta-select {
+	width: 100%;
+}
+
+.meta-upload {
+	width: 70%;
+	margin-right: 10px;
+}
+
+.meta-upload-button,
+.meta-remove-button {
+	margin-right: 10px!important;
+}
+
+.meta-title {
+	margin: 0!important;
+}
+
+.meta-description {
+	padding: 0 0 10px;
+	display: block;
+}
+
+.meta-repeatable-wrapper {
+	margin-bottom: 20px;
+}
+
+.meta-datepicker {
+	width: 188px;
+}
+
+.ui-datepicker {
+	background: #f7f7f7;
+	border: solid 1px #ccc;
+	padding: 20px;
+	width: 148px;
+}
+
+.ui-datepicker-next {
+	float: right;
+}
+
+.ui-datepicker a:hover {
+	cursor: pointer;
+}

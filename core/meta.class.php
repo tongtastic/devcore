@@ -11,6 +11,8 @@ class Meta {
 		$this->meta = array();
 
 	}
+
+	// called to initialise metabox class
 	
 	function init($meta) {
 
@@ -19,10 +21,28 @@ class Meta {
 		add_action('add_meta_boxes', array($this, 'add_new_meta_box'));
 		
 		add_action('save_post', array($this, 'save_meta_fields'));
-		
-		add_action('wp_ajax_format_content', array($this, 'format_content'));
-		
+
+		add_action('admin_head', array($this, 'load_admin_files'));
+				
 	}
+
+	// loads in required CSS and JS files into admin head
+
+	function load_admin_files() {
+
+		wp_register_script('jquery-ui',get_bloginfo('template_directory').'/assets/admin/js/jquery-ui.min.js',dirname(__FILE__),array('jquery'),true);
+
+		wp_enqueue_script('jquery-ui');
+
+		wp_register_script('meta',get_bloginfo('template_directory').'/assets/admin/js/meta.js',dirname(__FILE__),array('jquery'),true);
+
+		wp_enqueue_script('meta');
+
+		wp_enqueue_style('meta',get_bloginfo('template_directory').'/assets/admin/css/meta.css');
+
+	}
+
+	// registers metaboxes
 	
 	function add_new_meta_box() {
 
@@ -54,6 +74,8 @@ class Meta {
 
 	}
 
+	// loads in meta box wrapper
+
 	function show_meta_box($post, $box) {
 
 		$data .= '<input type="hidden" name="'.$box['args']['box_id'].'_meta_box_nonce" value="'.wp_create_nonce(basename(__FILE__)).'" />';
@@ -71,6 +93,8 @@ class Meta {
 		echo $data;
 		
 	}
+
+	// formats content sent too and from wp editor via AJAX call
 
 	function format_content() {
 
@@ -90,13 +114,15 @@ class Meta {
 
 	}
 
+	// outputs wp editor / generates wp editor popup for repeatable wysiwyg fields
+
 	function load_editor($id, $hide = true, $content = null) {
 
 		if($hide == true) {
 
-			$data .= '<div class="editor-wrapper-bg" style="display:none;width:100%;height:100%;background:#fff;position:fixed;z-index:99998;left:0;top:0;" id="wrapper-editor-bg-'.$id.'"></div>';
+			$data .= '<div class="meta-editor-wrapper-bg" id="meta-wrapper-editor-bg-'.$id.'"></div>';
 								
-			$data .= '<div class="editor-wrapper" style="display:none;width:70%;left:50%;margin-left:-35%;top:40px;position:fixed;z-index:99999;" id="wrapper-editor'.$id.'">';
+			$data .= '<div class="meta-editor-wrapper" id="meta-wrapper-editor'.$id.'">';
 
 				$data .= '<h2>Insert content</h2>';
 
@@ -104,8 +130,7 @@ class Meta {
 
 			$args = array(
 				'textarea_name' => $id,
-				'textarea_rows' => '20',
-				'wpautop' => false
+				'textarea_rows' => '20'
 			);
 							
 			ob_start();
@@ -120,7 +145,9 @@ class Meta {
 
 		if($hide == true) {
 
-				$data .= '<br /><a class="button-primary insert-content" data-editor="'.$id.'" data-editorwrap="#wrapper-editor'.$id.'" data-bg="#wrapper-editor-bg-'.$id.'">Insert</a> <a class="button-secondary close-editor-window" data-editor="'.$id.'" data-editorwrap="#wrapper-editor'.$id.'" data-bg="#wrapper-editor-bg-'.$id.'">Cancel</a>';
+				$data .= '<br /><a class="button-primary meta-insert-content" data-editor="'.$id.'" data-editorwrap="#meta-wrapper-editor'.$id.'" data-bg="#meta-wrapper-editor-bg-'.$id.'">Insert</a>';
+
+				$data .= '<a class="button-secondary meta-close-editor-window" data-editor="'.$id.'" data-editorwrap="#meta-wrapper-editor'.$id.'" data-bg="#meta-wrapper-editor-bg-'.$id.'">Cancel</a>';
 
 			$data .= '</div>';
 
@@ -130,9 +157,9 @@ class Meta {
 
 	}
 
-	function meta_fields($arr, $post) {
+	// loads in all meta fields
 
-		$sortable_bar = '<span class="sort-bar" style="display:block;height:20px;border:solid 1px #ccc;background:#f0f0f0;padding:10px;margin:10px 0">Drag to re-order</span>';
+	function meta_fields($arr, $post) {
 
 		foreach ($arr as $meta_box_field) {
 
@@ -140,15 +167,31 @@ class Meta {
 						
 			switch ($meta_box_field['type']) {
 
+				// standard fields --------------------------------
+
 				case 'text' :
 
-					$data .= '<div class="text-field-wrapper" id="wrapper-'.$meta_box_field['id'].'"">';
+					$data .= '<div class="'.$this->classes($meta_box_field).'" id="'.$this->id($meta_box_field).'">';
 
-						$data .= '<h4>'.stripslashes($meta_box_field['name']).'</h4>';
+						$data .= '<h4 class="meta-title">'.stripslashes($meta_box_field['name']).'</h4>';
+
+						$data .= '<p class="meta-description">'.stripslashes($meta_box_field['desc']).'</p>';
 	
-						$data .= '<input type="text" name="'.$meta_box_field['id'].'" id="field-'.$meta_box_field['id'].'" value="'.$meta.'" />';
+						$data .= '<input type="text" class="meta-text" name="'.$meta_box_field['id'].'" id="field-'.$meta_box_field['id'].'" value="'.$meta.'" />';
 
-						$data .= '<p>'.stripslashes($meta_box_field['desc']).'</p>';
+					$data .= '</div>';
+	
+				break;
+
+				case 'datepicker' :
+
+					$data .= '<div class="'.$this->classes($meta_box_field).'" id="'.$this->id($meta_box_field).'">';
+
+						$data .= '<h4 class="meta-title">'.stripslashes($meta_box_field['name']).'</h4>';
+
+						$data .= '<p class="meta-description">'.stripslashes($meta_box_field['desc']).'</p>';
+	
+						$data .= '<input type="text" class="meta-datepicker" name="'.$meta_box_field['id'].'" id="field-'.$meta_box_field['id'].'" value="'.$meta.'" data-dateformat="'.$meta_box_field['format'].'" />';
 
 					$data .= '</div>';
 	
@@ -156,21 +199,19 @@ class Meta {
 	
 				case 'textarea' :
 
-					$data .= '<div class="textarea-field-wrapper" id="wrapper-'.$meta_box_field['id'].'"">';
+					$data .= '<div class="'.$this->classes($meta_box_field).'" id="'.$this->id($meta_box_field).'">';
 
-						$data .= '<h4>'.stripslashes($meta_box_field['name']).'</h4>';
+						$data .= $this->header($meta_box_field);
 
-						if($meta_box_field['rich_editor'] == 0) {
-		
-							$data .= '<textarea name="'.$meta_box_field['id'].'" id="field-'.$meta_box_field['id'].'">'.$meta.'</textarea>';
-
-						} else {
+						if(isset($meta_box_field['rich_editor']) && $meta_box_field['rich_editor'] == true) {
 
 							$data .= $this->load_editor($meta_box_field['id'], false, $meta);
 
-						}
+						} else {
+		
+							$data .= '<textarea class="meta-textarea" name="'.$meta_box_field['id'].'" id="field-'.$meta_box_field['id'].'">'.$meta.'</textarea>';
 
-						$data .= '<p>'.stripslashes($meta_box_field['desc']).'</p>';
+						}
 
 					$data .= '</div>';
 			
@@ -178,11 +219,11 @@ class Meta {
 					
 				case 'checkbox':
 
-					$data .= '<div class="checkbox-field-wrapper" id="wrapper-'.$meta_box_field['id'].'"">';
+					$data .= '<div class="'.$this->classes($meta_box_field).'" id="'.$this->id($meta_box_field).'">';
 
-						$data .= '<h4>'.stripslashes($meta_box_field['name']).'</h4>';
+						$data .= $this->header($meta_box_field);
 				
-						$data .= '<input type="checkbox" name="'.$meta_box_field['id'].'" id="field-'.$meta_box_field['id'].'"';
+						$data .= '<input type="checkbox" class="meta-checkbox" name="'.$meta_box_field['id'].'" id="field-'.$meta_box_field['id'].'"';
 
 						if($meta == 'on') {
 						
@@ -191,8 +232,6 @@ class Meta {
 						}
 
 						$data .= ' />';
-						
-						$data .= '<p>'.stripslashes($meta_box_field['desc']).'</p>';
 
 					$data .= '</div>';
 					
@@ -200,11 +239,11 @@ class Meta {
 				
 				case 'select':
 
-					$data .= '<div class="select-field-wrapper" id="wrapper-'.$meta_box_field['id'].'"">';
+					$data .= '<div class="'.$this->classes($meta_box_field).'" id="'.$this->id($meta_box_field).'">';
 
-						$data .= '<h4>'.stripslashes($meta_box_field['name']).'</h4>';
+						$data .= $this->header($meta_box_field);
 									
-						$data .= '<select name="'.$meta_box_field['id'].'" id="field-'.$meta_box_field['id'].'">';
+						$data .= '<select class="meta-select" name="'.$meta_box_field['id'].'" id="field-'.$meta_box_field['id'].'">';
 						
 						$data .= '<option value="" selected="selected">Please select an option</option>';
 						
@@ -224,25 +263,67 @@ class Meta {
 						
 						$data .= '</select>';
 
-						$data .= '<p>'.stripslashes($meta_box_field['desc']).'</p>';
-
 					$data .= '</div>';
 					
 				break;
 					
 				case 'upload' :
 
-					$data .= '<div class="upload-field-wrapper" id="wrapper-'.$meta_box_field['id'].'">';
+					$data .= '<div class="'.$this->classes($meta_box_field).'" id="'.$this->id($meta_box_field).'">';
 
-						$data .= '<h4>'.stripslashes($meta_box_field['name']).'</h4>';
+						$data .= $this->header($meta_box_field);
 				
-						$data .= '<input type="text" class="upload_field" id="field-'.$meta_box_field['id'].'" name="'.$meta_box_field['id'].'" value="'.$meta .'" />';
+						$data .= '<input type="text" class="meta-upload" id="field-'.$meta_box_field['id'].'" name="'.$meta_box_field['id'].'" value="'.$meta .'" />';
 
-						$data .= '<input class="upload_button button-primary" type="button" value="Upload" />';
+						$data .= '<input class="meta-upload-button button-primary" type="button" value="Upload" />';
 
-						$data .= '<p>'.stripslashes($meta_box_field['desc']).'</p>';
+					$data .= '</div>';
+					
+				break;
 
-						$data .= $this->upload_js($meta_box_field['id']);
+				// repeatable fields --------------------------------
+				
+				case 'repeatable-text' :
+
+					$data .= '<div class="'.$this->classes($meta_box_field).'" id="'.$this->id($meta_box_field).'">';
+
+						$data .= $this->header($meta_box_field);
+
+						$data .= '<div class="meta-repeatable-inner">';
+
+							if(is_array($meta)) {
+
+								foreach($meta as $key => $value) {
+
+									$data .= '<div class="meta-repeatable-wrapper">';
+							
+										$data .= '<input type="text" class="meta-text" name="'.$meta_box_field['id'].'[]" value="'.$meta[$key] .'" />';
+
+										$data .= '<input class="meta-remove-button button-secondary" type="button" value="Remove" />';
+
+										$data .= $this->sortable_button($meta_box_field);
+
+									$data .= '</div>';
+
+								}
+
+							} else {
+
+								$data .= '<div class="meta-repeatable-wrapper">';
+						
+									$data .= '<input type="text" class="meta-text" name="'.$meta_box_field['id'].'[]" value="'.$meta .'" />';
+
+									$data .= '<input class="meta-remove-button button-secondary" type="button" value="Remove" />';
+
+									$data .= $this->sortable_button($meta_box_field);
+
+								$data .= '</div>';
+
+							}
+
+						$data .= '</div>';
+
+						$data .= '<input class="meta-add-button button-secondary" type="button" value="Add another" />';
 
 					$data .= '</div>';
 					
@@ -250,47 +331,49 @@ class Meta {
 
 				case 'repeatable-upload' :
 
-					$data .= '<div class="repeatable-upload-field-wrapper" id="wrapper-'.$meta_box_field['id'].'">';
+					$data .= '<div class="'.$this->classes($meta_box_field).'" id="'.$this->id($meta_box_field).'">';
 
-						$data .= '<h4>'.stripslashes($meta_box_field['name']).'</h4>';
+						$data .= $this->header($meta_box_field);
 
-						if(is_array($meta)) {
+						$data .= '<div class="meta-repeatable-inner">';
 
-							foreach($meta as $key => $value) {
+							if(is_array($meta)) {
 
-								$data .= '<div class="repeatable-wrapper">';
+								foreach($meta as $key => $value) {
+
+									$data .= '<div class="meta-repeatable-wrapper">';
+							
+										$data .= '<input type="text" class="meta-upload" name="'.$meta_box_field['id'].'[]" value="'.$meta[$key] .'" />';
+
+										$data .= '<input class="meta-upload-button button-primary" type="button" value="Upload" />';
+
+										$data .= '<input class="meta-remove-button button-secondary" type="button" value="Remove" />';
+
+										$data .= $this->sortable_button($meta_box_field);
+
+									$data .= '</div>';
+
+								}
+
+							} else {
+
+								$data .= '<div class="meta-repeatable-wrapper">';
 						
-									$data .= '<input type="text" class="upload_field" name="'.$meta_box_field['id'].'[]" value="'.$meta[$key] .'" />';
+									$data .= '<input type="text" class="meta-upload" name="'.$meta_box_field['id'].'[]" value="'.$meta .'" />';
 
-									$data .= '<input class="upload_button button-primary" type="button" value="Upload" />';
+									$data .= '<input class="meta-upload-button button-primary" type="button" value="Upload" />';
 
-									$data .= '<input class="remove_button button-secondary" type="button" value="Remove" />';
+									$data .= '<input class="meta-remove-button button-secondary" type="button" value="Remove" />';
+
+									$data .= $this->sortable_button($meta_box_field);
 
 								$data .= '</div>';
 
 							}
 
-						} else {
+						$data .= '</div>';
 
-							$data .= '<div class="repeatable-wrapper">';
-					
-								$data .= '<input type="text" class="upload_field" name="'.$meta_box_field['id'].'[]" value="'.$meta .'" />';
-
-								$data .= '<input class="upload_button button-primary" type="button" value="Upload" />';
-
-								$data .= '<input class="remove_button button-secondary" type="button" value="Remove" />';
-
-							$data .= '</div>';
-
-						}
-
-						$data .= '<input class="add_button button-secondary" type="button" value="Add another" />';
-
-						$data .= '<p>'.stripslashes($meta_box_field['desc']).'</p>';
-
-						$data .= $this->upload_js($meta_box_field['id']);
-
-						$data .= $this->repeatable_js($meta_box_field['id']);
+						$data .= '<input class="meta-add-button button-secondary" type="button" value="Add another" />';
 
 					$data .= '</div>';
 					
@@ -303,6 +386,8 @@ class Meta {
 		return $data;
 
 	}
+
+	// fires when fields are being saved
 	
 	function save_meta_fields($post_id) {
 
@@ -383,103 +468,53 @@ class Meta {
 
 	}
 
-	function upload_js($id) {
+	// prints sortable button where needed
 
-		$data .= "
+	function sortable_button($field) {
 
-		<script type='text/javascript'>
+		if(isset($field['sortable']) && $field['sortable'] == true) {
 
-		jQuery(document).ready(function() {	
-                	
-			if(jQuery('#wrapper-".$id." .upload_field').length > 0 ) {
-			
-				window.formfield = '';
+			return '<span class="meta-sortable-button button-secondary">Drag to re-order</span>';
 
-				jQuery('body').on('click', '#wrapper-".$id." .upload_button', function() {
-				
-					window.formfield = jQuery(this).parent().children('.upload_field');
-					
-					tb_show('', 'media-upload.php?type=file&TB_iframe=true');
-					
-					return false;
-					
-				});
-
-				window.original_send_to_editor = window.send_to_editor;
-					
-				window.send_to_editor = function(html) {
-				
-					if (window.formfield) {
-					
-						imgurl = jQuery('a','<div>'+html+'</div>').attr('href');
-						
-						window.formfield.val(imgurl);
-						
-						tb_remove();
-						
-					} else {
-					
-						window.original_send_to_editor(html);
-						
-					}
-					
-					window.formfield = '';
-					
-					window.imagefield = false;
-					
-				}
-
-			}
-
-		});
-
-		</script>
-
-		";
-
-		return $data;
+		}
 
 	}
 
-	function repeatable_js($id) {
+	// adds classes to wrapping element
 
-		$data .= "
+	function classes($field) {
 
-		<script type='text/javascript'>
+		$classes[] = 'meta-wrapper';
 
-		jQuery(document).ready(function() {
+		$classes[] = 'meta-'.$field['type'].'-field-wrapper';
 
-			jQuery('#wrapper-".$id." .add_button').on('click', function() {
-			
-				var field = jQuery('#wrapper-".$id."').find('div.repeatable-wrapper:last').clone(true);
+		if(isset($field['sortable']) && $field['sortable'] == true) {
 
-				jQuery('input[type=text]', field).val('');
+			$classes[] = 'meta-sortable';
 
-				jQuery('textarea', field).text('');
+		}
 
-				var fieldLocation = jQuery('#wrapper-".$id."').find('div.repeatable-wrapper:last');
-				
-				field.insertAfter(fieldLocation, jQuery('#wrapper-".$id."'));
-				
-				return false;
+		$classes = implode(' ', $classes);
 
-			});
+		return $classes;
 
-			jQuery('#wrapper-".$id." .remove_button').on('click', function() {
-		
-				var field = jQuery(this).parent();
-				
-				field.remove();
-				
-				return false;
-			
-			});
+	}
 
-		});
+	// adds ID to wrapping element
 
-		</script>
+	function id($field) {
 
-		";
+		return 'meta-wrapper-'.$field['id'];
+
+	}
+
+	// prints header inside meta element
+
+	function header($field) {
+
+		$data .= '<h4 class="meta-title">'.stripslashes($field['name']).'</h4>';
+
+		$data .= '<p class="meta-description">'.stripslashes($field['desc']).'</p>';
 
 		return $data;
 

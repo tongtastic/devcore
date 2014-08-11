@@ -1,0 +1,6 @@
+.vc-element-icon.slider,
+.wpb_slider .wpb_element_wrapper,
+.wpb_slider.wpb_content_element > .wpb_element_wrapper,
+.wpb_slider[data-element_type=slider] {
+    background-image: url(../img/vc.png);
+}
