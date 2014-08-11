@@ -86,7 +86,28 @@ jQuery(document).ready(function() {
 
 		});
 
-		alert(data);
+	});
+
+	jQuery('.meta-colorpicker').each(function() {
+
+		var target = jQuery(this);
+
+		var target_demo = jQuery(this).next('.meta-colorpicker-color');
+
+		target.ColorPicker({
+
+			onSubmit: function (hsb, hex, rgb) {
+
+				target.val('#'+hex);
+
+				target_demo.css({
+					'background': '#'+hex,
+					'display': 'block'
+				});
+
+			}
+
+		});
 
 	});
 

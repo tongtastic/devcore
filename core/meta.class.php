@@ -34,11 +34,17 @@ class Meta {
 
 		wp_enqueue_script('jquery-ui');
 
+		wp_register_script('color-picker',get_bloginfo('template_directory').'/assets/admin/js/colorpicker.js',dirname(__FILE__),array('jquery'),true);
+
+		wp_enqueue_script('color-picker');
+
 		wp_register_script('meta',get_bloginfo('template_directory').'/assets/admin/js/meta.js',dirname(__FILE__),array('jquery'),true);
 
 		wp_enqueue_script('meta');
 
 		wp_enqueue_style('meta',get_bloginfo('template_directory').'/assets/admin/css/meta.css');
+
+		wp_enqueue_style('colorpicker',get_bloginfo('template_directory').'/assets/admin/css/colorpicker.css');
 
 	}
 
@@ -173,9 +179,7 @@ class Meta {
 
 					$data .= '<div class="'.$this->classes($meta_box_field).'" id="'.$this->id($meta_box_field).'">';
 
-						$data .= '<h4 class="meta-title">'.stripslashes($meta_box_field['name']).'</h4>';
-
-						$data .= '<p class="meta-description">'.stripslashes($meta_box_field['desc']).'</p>';
+						$data .= $this->header($meta_box_field);
 	
 						$data .= '<input type="text" class="meta-text" name="'.$meta_box_field['id'].'" id="field-'.$meta_box_field['id'].'" value="'.$meta.'" />';
 
@@ -187,11 +191,31 @@ class Meta {
 
 					$data .= '<div class="'.$this->classes($meta_box_field).'" id="'.$this->id($meta_box_field).'">';
 
-						$data .= '<h4 class="meta-title">'.stripslashes($meta_box_field['name']).'</h4>';
-
-						$data .= '<p class="meta-description">'.stripslashes($meta_box_field['desc']).'</p>';
+						$data .= $this->header($meta_box_field);
 	
 						$data .= '<input type="text" class="meta-datepicker" name="'.$meta_box_field['id'].'" id="field-'.$meta_box_field['id'].'" value="'.$meta.'" data-dateformat="'.$meta_box_field['format'].'" />';
+
+					$data .= '</div>';
+	
+				break;
+
+				case 'colorpicker' :
+
+					$data .= '<div class="'.$this->classes($meta_box_field).'" id="'.$this->id($meta_box_field).'">';
+
+						$data .= $this->header($meta_box_field);
+
+						$data .= '<input type="text" class="meta-colorpicker" name="'.$meta_box_field['id'].'" id="field-'.$meta_box_field['id'].'" value="'.$meta.'" />';
+
+						$data .= '<span class="meta-colorpicker-color"';
+
+						if($meta) {
+
+							$data .= ' style="display:block; background: '.$meta.'"';
+
+						}
+
+						$data .= '></span>';
 
 					$data .= '</div>';
 	
@@ -312,6 +336,52 @@ class Meta {
 								$data .= '<div class="meta-repeatable-wrapper">';
 						
 									$data .= '<input type="text" class="meta-text" name="'.$meta_box_field['id'].'[]" value="'.$meta .'" />';
+
+									$data .= '<input class="meta-remove-button button-secondary" type="button" value="Remove" />';
+
+									$data .= $this->sortable_button($meta_box_field);
+
+								$data .= '</div>';
+
+							}
+
+						$data .= '</div>';
+
+						$data .= '<input class="meta-add-button button-secondary" type="button" value="Add another" />';
+
+					$data .= '</div>';
+					
+				break;
+
+				case 'repeatable-textarea' :
+
+					$data .= '<div class="'.$this->classes($meta_box_field).'" id="'.$this->id($meta_box_field).'">';
+
+						$data .= $this->header($meta_box_field);
+
+						$data .= '<div class="meta-repeatable-inner">';
+
+							if(is_array($meta)) {
+
+								foreach($meta as $key => $value) {
+
+									$data .= '<div class="meta-repeatable-wrapper">';
+							
+									$data .= '<textarea class="meta-textarea" name="'.$meta_box_field['id'].'[]" id="field-'.$meta_box_field['id'].'">'.$meta[$key].'</textarea>';
+
+										$data .= '<input class="meta-remove-button button-secondary" type="button" value="Remove" />';
+
+										$data .= $this->sortable_button($meta_box_field);
+
+									$data .= '</div>';
+
+								}
+
+							} else {
+
+								$data .= '<div class="meta-repeatable-wrapper">';
+						
+									$data .= '<textarea class="meta-textarea" name="'.$meta_box_field['id'].'[]" id="field-'.$meta_box_field['id'].'">'.$meta.'</textarea>';
 
 									$data .= '<input class="meta-remove-button button-secondary" type="button" value="Remove" />';
 

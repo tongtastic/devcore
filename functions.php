@@ -72,10 +72,23 @@ $args = array(
 						'format' => 'dd-mm-yy'
 					),
 					array(
+						'name' => 'Color picker',
+						'desc' => 'Test colorpicker',
+						'id' => 'colorpicker',
+						'type' => 'colorpicker',
+					),
+					array(
 						'name' => 'Repeatable text',
 						'desc' => 'Test repeatable text',
 						'id' => 'repeatabletext',
 						'type' => 'repeatable-text',
+						'sortable' => true
+					),
+					array(
+						'name' => 'Repeatable textarea',
+						'desc' => 'Test repeatable textarea',
+						'id' => 'repeatabletextarea',
+						'type' => 'repeatable-textarea',
 						'sortable' => true
 					)
 				)

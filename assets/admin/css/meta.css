@@ -1,7 +1,6 @@
 .meta-wrapper {
 	margin: 0 0 20px;
-	padding: 20px;
-	background: #f7f7f7;
+	padding: 0 0 20px;
 }
 
 .meta-sortable-button:hover {
@@ -33,7 +32,8 @@
 	width: 100%;
 }
 
-.meta-repeatable-wrapper .meta-text {
+.meta-repeatable-wrapper .meta-text,
+.meta-repeatable-wrapper .meta-textarea {
 	width: 70%;
 	margin-right: 10px;
 }
@@ -41,6 +41,15 @@
 .meta-textarea {
 	width: 100%;
 	min-height: 200px;
+}
+
+.meta-colorpicker-color {
+	display: block;
+	width: 190px;
+	height: 27px;
+	background: black;
+	margin-top: 10px;
+	display: none;
 }
 
 .meta-select {
@@ -87,4 +96,8 @@
 
 .ui-datepicker a:hover {
 	cursor: pointer;
+}
+
+.colorpicker input {
+	height: auto!important;
 }
