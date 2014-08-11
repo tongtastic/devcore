@@ -3,7 +3,7 @@
  
 include('core/core.class.php');
 
-include('core/meta.class.php');
+include('core/metabox.class.php');
 
 include('core/visualcomposer.class.php');
 
@@ -15,20 +15,20 @@ $args = array(
 			'post_type' => 'course',
 			'args' => array(
 				'labels' => array(
-					'name' => _x('Courses', 'post type general name'),
-					'singular_name' => _x('Course', 'post type singular name'),
-					'add_new' => __('Add New Course', 'kic'),
-					'add_new_item' => __('Add New Course', 'kic'),
-					'edit_item' => __('Edit Course', 'kic'),
-					'new_item' => __('New Course', 'kic'),
-					'view_item' => __('View Course', 'kic'),
-					'search_items' => __('Search Courses', 'kic'),
-					'not_found' => __('No Courses Found', 'kic'),
-					'not_found_in_trash'=> __('No Courses Found in Trash', 'kic'),
-					'parent_item_colon' => __('courses', 'kic'),
-					'menu_name' => __('Courses', 'kic')
+					'name' => __('Courses', 'core'),
+					'singular_name' => __('Course', 'core'),
+					'add_new' => __('Add New Course', 'core'),
+					'add_new_item' => __('Add New Course', 'core'),
+					'edit_item' => __('Edit Course', 'core'),
+					'new_item' => __('New Course', 'core'),
+					'view_item' => __('View Course', 'core'),
+					'search_items' => __('Search Courses', 'core'),
+					'not_found' => __('No Courses Found', 'core'),
+					'not_found_in_trash'=> __('No Courses Found in Trash', 'core'),
+					'parent_item_colon' => __('courses', 'core'),
+					'menu_name' => __('Courses', 'core')
 				),
-				'singular_label' => __('course'),
+				'singular_label' => __('course', 'core'),
 				'public' => true,
 				'show_ui' => true,
 				'publicly_queryable'=> true,
@@ -145,54 +145,6 @@ $args = array(
 					'sortable' => true
 				)
 			)
-		)
-	),
-	'visualcomposer' => array(
-		'template_folder' => 'vc',
-		'remove_elements' => array(
-			'vc_separator',
-			'vc_text_separator',
-			'vc_message',
-			'vc_tweetmeme',
-			'vc_facebook',
-			'vc_googleplus',
-			'vc_pinterest',
-			'vc_toggle',
-			'vc_single_image',
-			'vc_gallery',
-			'vc_images_carousel',
-			'vc_tabs',
-			'vc_tour',
-			'vc_tab',
-			'vc_accordion',
-			'vc_accordion_tab',
-			'vc_teaser_grid',
-			'vc_posts_grid',
-			'vc_carousel',
-			'vc_posts_slider',
-			'vc_widget_sidebar',
-			'vc_button',
-			'vc_button2',
-			'vc_cta_button',
-			'vc_cta_button2',
-			'vc_flickr',
-			'vc_progress_bar',
-			'vc_pie',
-			'vc_wp_search',
-			'vc_wp_meta',
-			'vc_wp_recentcomments',
-			'vc_wp_calendar',
-			'vc_wp_pages',
-			'vc_wp_tagcloud',
-			'vc_wp_custommenu',
-			'vc_wp_text',
-			'vc_wp_posts',
-			'vc_wp_links',
-			'vc_wp_categories',
-			'vc_wp_archives',
-			'vc_wp_rss',
-			'vc_raw_js',
-			'vc_video'
 		)
 	)
 );

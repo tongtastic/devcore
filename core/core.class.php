@@ -124,7 +124,7 @@ class Core {
 
 		if(isset($items['metaboxes'])) {
 
-			$meta_box = new Meta;
+			$meta_box = new MetaBox;
 
 			$metaboxes = $items['metaboxes'];
 
