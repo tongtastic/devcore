@@ -397,7 +397,7 @@ class Meta {
 
 				jQuery('body').on('click', '#wrapper-".$id." .upload_button', function() {
 				
-					window.formfield = jQuery('#wrapper-".$id." .upload_field',jQuery(this).parent());
+					window.formfield = jQuery(this).parent().children('.upload_field');
 					
 					tb_show('', 'media-upload.php?type=file&TB_iframe=true');
 					
