@@ -52,30 +52,22 @@ class Meta {
 	
 	function add_new_meta_box() {
 
-		$meta_boxes = $this->meta;
+		$metabox = $this->meta;
 		
-		foreach($meta_boxes as $meta_box) {
+		$post_type = $metabox['post_type'];
 		
-			foreach($meta_box['boxes'] as $box) {
-			
-				$post_type = $meta_box['post_type'];
+		if(is_array($post_type)) {
+		
+			foreach($post_type as $type) {
 				
-				if(is_array($post_type)) {
-				
-					foreach($post_type as $type) {
-						
-						add_meta_box($box['id'].'_meta', $box['name'], array($this, 'show_meta_box'), $type, $box['position'], 'high', array('fields' => $box['fields'], 'box_id' => $box['id']));
-						
-					}
-					
-				} else {
-			
-					add_meta_box($box['id'].'_meta', $box['name'], array($this, 'show_meta_box'), $post_type, $box['position'], 'high', array('fields' => $box['fields'], 'box_id' => $box['id']));
-				
-				}
+				add_meta_box($metabox['id'].'_meta', $metabox['name'], array($this, 'show_meta_box'), $type, $metabox['position'], 'high', array('fields' => $metabox['fields'], 'box_id' => $metabox['id']));
 				
 			}
 			
+		} else {
+	
+			add_meta_box($metabox['id'].'_meta', $metabox['name'], array($this, 'show_meta_box'), $post_type, $metabox['position'], 'high', array('fields' => $metabox['fields'], 'box_id' => $metabox['id']));
+		
 		}
 
 	}
@@ -211,7 +203,7 @@ class Meta {
 
 						if($meta) {
 
-							$data .= ' style="display:block; background: '.$meta.'"';
+							$data .= ' style="display:block;background: '.$meta.'"';
 
 						}
 
@@ -287,6 +279,40 @@ class Meta {
 						
 						$data .= '</select>';
 
+					$data .= '</div>';
+					
+				break;
+
+				case 'radio':
+
+					$data .= '<div class="'.$this->classes($meta_box_field).'" id="'.$this->id($meta_box_field).'">';
+
+						$data .= $this->header($meta_box_field);
+
+						$row = 1;
+																					
+						foreach ($meta_box_field['options'] as $key => $value) {
+
+							$data .= '<div class="meta-radio-wrapper">';
+						
+							if(($meta == $value) || (!$meta && $row == 1)) {
+							
+								$data .= '<input class="meta-radio" type="radio" name="'.$meta_box_field['id'].'" value="'.$value.'" checked="checked" value="'.$key.'" />';
+								
+							} else {
+						
+								$data .= '<input class="meta-radio" type="radio" name="'.$meta_box_field['id'].'" value="'.$value.'" value="'.$key.'" />';
+							
+							}
+
+							$data .= '<label class="meta-label">'.$key.'</label>';
+
+							$data .= '</div>';
+
+							$row++;
+							
+						}
+						
 					$data .= '</div>';
 					
 				break;
@@ -463,79 +489,71 @@ class Meta {
 
 		global $post;
 		
-		$meta_boxes = $this->meta;
-				
-		foreach($meta_boxes as $meta_box) {
-			
-			foreach($meta_box['boxes'] as $box) {
+		$meta_box = $this->meta;
 	
-				if (!isset( $_POST[$box['id'].'_meta_box_nonce'])||!wp_verify_nonce($_POST[$box['id'].'_meta_box_nonce'], basename(__FILE__))) {
-		
-					return $post_id;
-		
-				}
-		
-				if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
-		
-					return $post_id;
-		
-				}
-		
-				if ('page' == $_POST['post_type']) {
-		
-					if (!current_user_can('edit_page', $post_id)) {
-		
-						return $post_id;
-		
-					}
-		
-				} elseif (!current_user_can('edit_post', $post_id)) {
-		
-					return $post_id;
-		
-				}
-						
-				foreach ($box['fields'] as $meta_box_field) {
-		
-					$old = get_post_meta($post_id, $meta_box_field['id'], true);
-					
-					$new = $_POST[$meta_box_field['id']];
+		if (!isset( $_POST[$meta_box['id'].'_meta_box_nonce'])||!wp_verify_nonce($_POST[$meta_box['id'].'_meta_box_nonce'], basename(__FILE__))) {
 
-					$find = array(
-						'<p>',
-						'</p>'
-					);
+			return $post_id;
 
-					$replace = array(
-						'',
-						PHP_EOL
-					);
-
-					$new = str_replace($find, $replace, $new);
-
-					if($new) {
-					
-						if ($new && $new != $old) {
-			
-							$id = update_post_meta($post_id, $meta_box_field['id'], $new);
-			
-						} elseif ('' == $new && $old) {
-			
-							$id = delete_post_meta($post_id, $meta_box_field['id'], $old);
-			
-						}
-
-					} else {
-
-						$id = delete_post_meta($post_id, $meta_box_field['id'], $old);
-					}
-							
-				}
-			
-			}
-		
 		}
 
+		if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) {
+
+			return $post_id;
+
+		}
+
+		if ('page' == $_POST['post_type']) {
+
+			if (!current_user_can('edit_page', $post_id)) {
+
+				return $post_id;
+
+			}
+
+		} elseif (!current_user_can('edit_post', $post_id)) {
+
+			return $post_id;
+
+		}
+				
+		foreach ($meta_box['fields'] as $meta_box_field) {
+
+			$old = get_post_meta($post_id, $meta_box_field['id'], true);
+			
+			$new = $_POST[$meta_box_field['id']];
+
+			$find = array(
+				'<p>',
+				'</p>'
+			);
+
+			$replace = array(
+				'',
+				PHP_EOL
+			);
+
+			$new = str_replace($find, $replace, $new);
+
+			if($new) {
+			
+				if ($new && $new != $old) {
+	
+					$id = update_post_meta($post_id, $meta_box_field['id'], $new);
+	
+				} elseif ('' == $new && $old) {
+	
+					$id = delete_post_meta($post_id, $meta_box_field['id'], $old);
+	
+				}
+
+			} else {
+
+				$id = delete_post_meta($post_id, $meta_box_field['id'], $old);
+			}
+					
+		}
+			
 	}
 
 	// prints sortable button where needed

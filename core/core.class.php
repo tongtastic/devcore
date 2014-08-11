@@ -4,11 +4,14 @@ namespace core;
 
 class Core {
 	
-	function init() {
+	function init($args) {
 		
+		add_action('init', array($this, 'build'));
 		add_action('widgets_init', array($this, 'register_widgets'));
 		add_theme_support('post-thumbnails');
 		add_filter('wp_default_editor', create_function('', 'return "tinymce";'));
+
+		new VisualComposer;
 
 		if(!is_admin()) {
 
@@ -21,6 +24,8 @@ class Core {
 			add_filter('wp_title', array($this, 'site_title'));
 
 		}
+
+		$this->build($args);
 		
 	}
 
@@ -101,6 +106,44 @@ class Core {
 	    $content = strtr($content, $array);
 	 
 	    return $content;
+	}
+
+	function build($items) {
+
+		if(isset($items['post_types'])) {
+
+			$post_types = $items['post_types'];
+
+			foreach($post_types as $post_type) {
+
+				register_post_type($post_type['post_type'], $post_type['args']);
+
+			}
+
+		}
+
+		if(isset($items['metaboxes'])) {
+
+			$meta_box = new Meta;
+
+			$metaboxes = $items['metaboxes'];
+
+			foreach($metaboxes as $metabox) {
+
+				$meta_box->init($metabox);
+
+			}
+
+		}
+
+		if(isset($items['visualcomposer'])) {
+
+			$visualcomposer = new VisualComposer;
+
+			$visualcomposer->init($items['visualcomposer']);
+
+		}
+
 	}
 		
 }
