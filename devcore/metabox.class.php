@@ -108,7 +108,7 @@ example arguments
 
 */
 
-namespace core;
+namespace devcore;
 
 class MetaBox {
 

@@ -1,13 +1,13 @@
 <?php
 // include and initialise the core class
  
-include('core/core.class.php');
+include('devcore/devcore.class.php');
 
-include('core/metabox.class.php');
+include('devcore/metabox.class.php');
 
-include('core/visualcomposer.class.php');
+include('devcore/visualcomposer.class.php');
 
-$core = new core\Core;
+$devcore = new devcore\DevCore;
 
 $args = array(
 	'post_types' => array(
@@ -149,4 +149,4 @@ $args = array(
 	)
 );
 
-$core->init($args);
+$devcore->init($args);

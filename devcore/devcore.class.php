@@ -1,8 +1,8 @@
 <?php
 
-namespace core;
+namespace devcore;
 
-class Core {
+class DevCore {
 	
 	function init($args) {
 		

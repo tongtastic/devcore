@@ -1,7 +1,5 @@
 <?php
 
-namespace core;
-
 /*
 
 example arguments
@@ -56,6 +54,8 @@ example arguments
 )
 
 */
+
+namespace devcore;
 
 class VisualComposer {
 
