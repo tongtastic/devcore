@@ -7,7 +7,11 @@ include('devcore/metabox.class.php');
 
 include('devcore/visualcomposer.class.php');
 
+// instantiate DevCore class
+
 $devcore = new devcore\DevCore;
+
+// example object to build theme
 
 $args = array(
 	'navs' => array(
@@ -176,5 +180,7 @@ $args = array(
 		)
 	)
 );
+
+// pass object to DevCore to build theme
 
 $devcore->init($args);
