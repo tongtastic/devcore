@@ -1,9 +1,39 @@
-devcore
+DevCore
 =======
 
 Very basic Wordpress parent theme just to get you started.
 
 Generates custom post types, custom taxonomies meta boxes.
+
+Meta boxes:
+===========
+
+Text
+
+Textarea
+
+WYSIWYG
+
+Radio group
+
+Select
+
+Checkbox
+
+Upload
+
+Date picker
+
+Color picker
+
+Repeatable metaboxes:
+=====================
+
+Text
+
+Textarea
+
+WYSIWYG
 
 Simple to setup:
 
