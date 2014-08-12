@@ -132,7 +132,7 @@ if(!class_exists('VisualComposer')) {
 
 			if(!$folder) {
 
-				$folder = '/core/visual_composer/';
+				$folder = '/devcore/visual_composer/';
 
 			} else {
 
@@ -192,7 +192,7 @@ if(!class_exists('VisualComposer')) {
 		function install_nag() {
 			?>
 			<div class="update-nag">
-	        	<p><?php _e('This theme kicks ass with <a target="_blank" href="http://codecanyon.net/item/visual-composer-page-builder-for-wordpress/242431?ref=tongtastic">Visual Composer</a> installed, you can get that <a target="_blank" href="http://codecanyon.net/item/visual-composer-page-builder-for-wordpress/242431?ref=tongtastic">here</a>, and you wont\' regret it ;)', 'core'); ?></p>
+	        	<p><?php _e('This theme kicks ass with <a target="_blank" href="http://codecanyon.net/item/visual-composer-page-builder-for-wordpress/242431?ref=tongtastic">Visual Composer</a> installed, you can get that <a target="_blank" href="http://codecanyon.net/item/visual-composer-page-builder-for-wordpress/242431?ref=tongtastic">here</a>, and you wont\' regret it ;)', 'devcore'); ?></p>
 	    	</div>
 			<?php
 		}
