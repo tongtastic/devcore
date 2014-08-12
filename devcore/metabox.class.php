@@ -595,7 +595,7 @@ if(!class_exists('MetaBox')) {
 			
 			$meta_box = $this->meta;
 		
-			if (!isset( $_POST[$meta_box['id'].'_meta_box_nonce'])||!wp_verify_nonce($_POST[$meta_box['id'].'_meta_box_nonce'], basename(__FILE__))) {
+			if(!isset($_POST[$meta_box['id'].'_meta_box_nonce'])||!wp_verify_nonce($_POST[$meta_box['id'].'_meta_box_nonce'], basename(__FILE__))) {
 
 				return $post_id;
 
