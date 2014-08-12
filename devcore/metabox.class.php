@@ -112,8 +112,10 @@ namespace devcore;
 
 class MetaBox {
 
+	// variable to build metabox structure and items
 	var $meta;
 
+	// when initialsed, empty variable
 	function __construct() {
 
 		$this->meta = array();
@@ -121,7 +123,6 @@ class MetaBox {
 	}
 
 	// called to initialise metabox class
-	
 	function init($meta) {
 
 		$this->meta = $meta;
@@ -135,7 +136,6 @@ class MetaBox {
 	}
 
 	// loads in required CSS and JS files into admin head
-
 	function load_admin_files() {
 
 		wp_register_script('jquery-ui',get_bloginfo('template_directory').'/assets/admin/js/jquery-ui.min.js',dirname(__FILE__),array('jquery'),true);
@@ -157,7 +157,6 @@ class MetaBox {
 	}
 
 	// registers metaboxes
-	
 	function add_new_meta_box() {
 
 		$metabox = $this->meta;
@@ -181,7 +180,6 @@ class MetaBox {
 	}
 
 	// loads in meta box wrapper
-
 	function show_meta_box($post, $box) {
 
 		$data .= '<input type="hidden" name="'.$box['args']['box_id'].'_meta_box_nonce" value="'.wp_create_nonce(basename(__FILE__)).'" />';
@@ -201,7 +199,6 @@ class MetaBox {
 	}
 
 	// formats content sent too and from wp editor via AJAX call
-
 	function format_content() {
 
 		$content = $_REQUEST['content'];
@@ -221,7 +218,6 @@ class MetaBox {
 	}
 
 	// outputs wp editor / generates wp editor popup for repeatable wysiwyg fields
-
 	function load_editor($id, $hide = true, $content = null) {
 
 		if($hide == true) {
@@ -264,7 +260,6 @@ class MetaBox {
 	}
 
 	// loads in all meta fields
-
 	function meta_fields($arr, $post) {
 
 		foreach ($arr as $meta_box_field) {
@@ -592,7 +587,6 @@ class MetaBox {
 	}
 
 	// fires when fields are being saved
-	
 	function save_meta_fields($post_id) {
 
 		global $post;
@@ -665,7 +659,6 @@ class MetaBox {
 	}
 
 	// prints sortable button where needed
-
 	function sortable_button($field) {
 
 		if(isset($field['sortable']) && $field['sortable'] == true) {
@@ -677,7 +670,6 @@ class MetaBox {
 	}
 
 	// adds classes to wrapping element
-
 	function classes($field) {
 
 		$classes[] = 'meta-wrapper';
@@ -697,15 +689,13 @@ class MetaBox {
 	}
 
 	// adds ID to wrapping element
-
 	function id($field) {
 
 		return 'meta-wrapper-'.$field['id'];
 
 	}
 
-	// prints header inside meta element
-
+	// prints header for metabox element
 	function header($field) {
 
 		$data .= '<h4 class="meta-title">'.stripslashes($field['name']).'</h4>';
