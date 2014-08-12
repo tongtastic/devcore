@@ -74,15 +74,14 @@ $args = array(
 					'name' => 'Text area',
 					'desc' => 'Test text area',
 					'id' => 'textarea',
-					'type' => 'textarea',
-					'rich_editor' => 0
+					'type' => 'textarea'
 				),
 				array(
 					'name' => 'Text area RTE',
 					'desc' => 'Test text area RTE',
 					'id' => 'textarearte',
 					'type' => 'textarea',
-					'rich_editor' => 1
+					'rich_editor' => true
 				),
 				array(
 					'name' => 'Radio',
@@ -151,6 +150,14 @@ $args = array(
 					'id' => 'repeatabletextarea',
 					'type' => 'repeatable-textarea',
 					'sortable' => true
+				),
+				array(
+					'name' => 'Repeatable textarea RTE',
+					'desc' => 'Test repeatable textarea RTE',
+					'id' => 'repeatabletextarearte',
+					'type' => 'repeatable-textarea',
+					'sortable' => true,
+					'rich_editor' => true
 				)
 			)
 		)

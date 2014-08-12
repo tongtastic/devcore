@@ -62,7 +62,8 @@
 }
 
 .meta-upload-button,
-.meta-remove-button {
+.meta-remove-button,
+.meta-insert-content {
 	margin-right: 10px!important;
 }
 

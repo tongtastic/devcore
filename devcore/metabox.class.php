@@ -134,6 +134,8 @@ if(!class_exists('MetaBox')) {
 			add_action('save_post', array($this, 'save_meta_fields'));
 
 			add_action('admin_head', array($this, 'load_admin_files'));
+
+			add_action('wp_ajax_meta_format_content', array($this, 'format_content'));
 					
 		}
 
@@ -234,7 +236,7 @@ if(!class_exists('MetaBox')) {
 
 				$args = array(
 					'textarea_name' => $id,
-					'textarea_rows' => '20'
+					'textarea_rows' => 40
 				);
 								
 				ob_start();
@@ -490,6 +492,16 @@ if(!class_exists('MetaBox')) {
 
 							$data .= $this->header($meta_box_field);
 
+							$repeatable = null;
+
+							if(isset($meta_box_field['rich_editor']) && $meta_box_field['rich_editor'] == true) {
+
+								$data .= $this->load_editor($meta_box_field['id']);
+
+								$repeatable = ' meta-rich-editor';
+
+							}
+
 							$data .= '<div class="meta-repeatable-inner">';
 
 								if(is_array($meta)) {
@@ -498,7 +510,7 @@ if(!class_exists('MetaBox')) {
 
 										$data .= '<div class="meta-repeatable-wrapper">';
 								
-										$data .= '<textarea class="meta-textarea" name="'.$meta_box_field['id'].'[]" id="field-'.$meta_box_field['id'].'">'.$meta[$key].'</textarea>';
+										$data .= '<textarea class="meta-textarea'.$repeatable.'" data-editor="'.$meta_box_field['id'].'" name="'.$meta_box_field['id'].'[]" id="field-'.$meta_box_field['id'].'">'.$meta[$key].'</textarea>';
 
 											$data .= '<input class="meta-remove-button button-secondary" type="button" value="Remove" />';
 
@@ -512,7 +524,7 @@ if(!class_exists('MetaBox')) {
 
 									$data .= '<div class="meta-repeatable-wrapper">';
 							
-										$data .= '<textarea class="meta-textarea" name="'.$meta_box_field['id'].'[]" id="field-'.$meta_box_field['id'].'">'.$meta.'</textarea>';
+										$data .= '<textarea class="meta-textarea'.$repeatable.'" data-editor="'.$meta_box_field['id'].'" name="'.$meta_box_field['id'].'[]" id="field-'.$meta_box_field['id'].'">'.$meta.'</textarea>';
 
 										$data .= '<input class="meta-remove-button button-secondary" type="button" value="Remove" />';
 

@@ -111,4 +111,91 @@ jQuery(document).ready(function() {
 
 	});
 
+	// load up rich editor windo and populate content
+	jQuery('.meta-rich-editor').click(function() {
+
+		jQuery(this).addClass('meta-editor-target').attr("disabled","disabled");
+
+		var data = jQuery(this).data();
+
+		var content = {}
+
+		content = jQuery(this).text();
+
+		// process content via AJAX call to apply wpautop
+		jQuery.ajax({
+
+			type: 'post',
+
+			dataType: 'json',
+
+			url: ajaxurl,
+
+			data: {
+				action: 'meta_format_content', content: content
+			},
+			success: function(response) {
+
+				if(response.type == 'success') {
+
+					tinyMCE.get('editor'+data.editor).setContent(response.content);
+
+					jQuery('#meta-wrapper-editor-bg-'+data.editor).fadeIn('fast',function() {
+
+						jQuery('#meta-wrapper-editor'+data.editor).fadeIn('fast');
+
+					});
+
+				} else {
+
+					alert('fail');
+
+				}
+
+			}
+
+		});
+
+	});
+
+	// push content back to text area
+	jQuery('.meta-insert-content').click(function() {
+
+		var data = jQuery(this).data();
+
+		var content = tinyMCE.get('editor'+data.editor).getContent();
+
+		jQuery(data.editorwrap).fadeOut('fast',function() {
+
+			jQuery('.meta-editor-target').empty().text(content).removeClass('meta-editor-target').prop('disabled', false);
+
+			jQuery(data.bg).fadeOut('fast');
+
+		});
+
+		tinyMCE.get('editor'+data.editor).setContent('');
+
+		return false;
+
+	});
+
+	// close popup window
+	jQuery('.meta-close-editor-window').click(function() {
+
+		var data = jQuery(this).data();
+		
+		jQuery(data.editorwrap).fadeOut('fast',function() {
+
+			jQuery(data.bg).fadeOut('fast');
+
+			jQuery('.meta-editor-target').removeClass('meta-editor-target').prop('disabled', false);
+
+		});
+
+		tinyMCE.get('editor'+data.editor).setContent('');
+		
+		return false;
+	
+	});
+
 });
