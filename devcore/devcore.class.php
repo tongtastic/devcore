@@ -91,7 +91,7 @@ if(!class_exists('DevCore')) {
 				global $wp_query;
 
 				$tax = $wp_query->queried_object;
-				$data .= $tax->name;
+				$data .= $tax->name.' | ';
 
 			}
 
