@@ -16,23 +16,23 @@ $args = array(
 	),
 	'post_types' => array(
 		array(
-			'post_type' => 'course',
+			'post_type' => 'customposttype',
 			'args' => array(
 				'labels' => array(
-					'name' => __('Courses', 'core'),
-					'singular_name' => __('Course', 'core'),
-					'add_new' => __('Add New Course', 'core'),
-					'add_new_item' => __('Add New Course', 'core'),
-					'edit_item' => __('Edit Course', 'core'),
-					'new_item' => __('New Course', 'core'),
-					'view_item' => __('View Course', 'core'),
-					'search_items' => __('Search Courses', 'core'),
-					'not_found' => __('No Courses Found', 'core'),
-					'not_found_in_trash'=> __('No Courses Found in Trash', 'core'),
-					'parent_item_colon' => __('courses', 'core'),
-					'menu_name' => __('Courses', 'core')
+					'name' => __('Custom Post Type', 'core'),
+					'singular_name' => __('Custom Post Type', 'core'),
+					'add_new' => __('Add New Custom Post Type', 'core'),
+					'add_new_item' => __('Add New Custom Post Type', 'core'),
+					'edit_item' => __('Edit Custom Post Type', 'core'),
+					'new_item' => __('New Custom Post Type', 'core'),
+					'view_item' => __('View Custom Post Type', 'core'),
+					'search_items' => __('Search Custom Post Types', 'core'),
+					'not_found' => __('No Custom Post Types Found', 'core'),
+					'not_found_in_trash'=> __('No Custom Post Types Found in Trash', 'core'),
+					'parent_item_colon' => __('Custom Post Types', 'core'),
+					'menu_name' => __('Custom Post Types', 'core')
 				),
-				'singular_label' => __('course', 'core'),
+				'singular_label' => __('customposttype', 'core'),
 				'public' => true,
 				'show_ui' => true,
 				'publicly_queryable'=> true,
@@ -54,7 +54,7 @@ $args = array(
 		array(
 			'post_type' => array(
 				'page',
-				'course'
+				'customposttype'
 			),
 			'name' => 'Test metabox',
 			'id' => 'test-metabox',
@@ -153,13 +153,13 @@ $args = array(
 	),
 	'taxonomies' => array(
 		array(
-			'taxonomy' => 'coursecategory',
-			'post_type' => 'course',
+			'taxonomy' => 'customposttypecategory',
+			'post_type' => 'customposttype',
 			'args' => array(
 				'labels' => array(
-					'name' => __('Course category', 'devcore'),
-					'singular_name' => __('Course category', 'devcore'),
-					'menu_name' => __('Course categories', 'devcore')
+					'name' => __('Custom Post Type Category', 'devcore'),
+					'singular_name' => __('Custom Post Type Category', 'devcore'),
+					'menu_name' => __('Custom Post Type Categories', 'devcore')
 				),
 				'hierarchical' => true,
 				'public' => true,
@@ -168,7 +168,7 @@ $args = array(
 				'show_in_nav_menus' => true,
 				'show_tagcloud' => false,
 				'rewrite' => array(
-					'slug' => 'courses',
+					'slug' => 'custom-post-type-category',
 					'hierarchical' => true,
 					'with_front' => true
 				)

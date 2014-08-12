@@ -8,7 +8,7 @@ example arguments
 	array(
 		'post_type' => array(
 			'page',
-			'course'
+			'customposttype'
 		),
 		'name' => 'Test metabox',
 		'id' => 'test-metabox',
