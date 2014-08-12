@@ -145,6 +145,18 @@ if(!class_exists('DevCore')) {
 
 			}
 
+			if(isset($items['taxonomy_metaboxes'])) {
+
+				$taxonomy_metaboxes = new TaxonomyMetaBox;
+
+				foreach($items['taxonomy_metaboxes'] as $taxonomy_metabox) {
+
+					$taxonomy_metaboxes->init($taxonomy_metabox);
+
+				}
+
+			}
+
 			if(isset($items['visualcomposer'])) {
 
 				$visualcomposer = new VisualComposer;

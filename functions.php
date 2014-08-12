@@ -5,6 +5,8 @@ include('devcore/devcore.class.php');
 
 include('devcore/metabox.class.php');
 
+include('devcore/taxonomymetabox.class.php');
+
 include('devcore/visualcomposer.class.php');
 
 // instantiate DevCore class
@@ -182,6 +184,48 @@ $args = array(
 					'slug' => 'custom-post-type-category',
 					'hierarchical' => true,
 					'with_front' => true
+				)
+			)
+		)
+	),
+	'taxonomy_metaboxes' => array(
+		array(
+			'taxonomy' => 'customposttypecategory',
+			'fields' => array(
+				array(
+					'name' => 'Upload',
+					'desc' => 'Test upload field',
+					'id' => 'upload',
+					'type' => 'upload'
+				),
+				array(
+					'name' => 'Text',
+					'desc' => 'Test text field',
+					'id' => 'text',
+					'type' => 'text'
+				),
+				array(
+					'name' => 'Textarea',
+					'desc' => 'Test textarea field',
+					'id' => 'textarea',
+					'type' => 'textarea'
+				),
+				array(
+					'name' => 'Textarea RTE',
+					'desc' => 'Test textarea with RTE field',
+					'id' => 'textarearte',
+					'type' => 'textarea',
+					'rich_editor' => true
+				),
+				array(
+					'name' => 'Select',
+					'desc' => 'Test select field',
+					'id' => 'select',
+					'type' => 'select',
+					'options' => array(
+						'Yes' => 'yes',
+						'No' => 'Yo',
+					)
 				)
 			)
 		)
