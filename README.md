@@ -36,6 +36,7 @@ Textarea
 WYSIWYG
 
 Simple to setup:
+================
 
 In functions.php of your child theme, instantiate the class and pass arguments in the following manner:
 
