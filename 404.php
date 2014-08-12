@@ -1,11 +1,4 @@
 <?php get_header(); ?>
-
-<?php 
-	if ( have_posts() ) {
-		while ( have_posts() ) {
-			the_post(); 
-			the_content();
-		} // end while
-	} // end if
-?>
+<h1><?php _e('404 Error', 'devcore'); ?></h1>
+<p><?php _e('The page / post you are looking for has moved or is no longer available', 'devcore'); ?>
 <?php get_footer(); ?>

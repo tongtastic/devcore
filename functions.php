@@ -10,6 +10,10 @@ include('devcore/visualcomposer.class.php');
 $devcore = new devcore\DevCore;
 
 $args = array(
+	'navs' => array(
+		'primary' => 'Primary Nav',
+		'secondary' => 'Secondary Nav'
+	),
 	'post_types' => array(
 		array(
 			'post_type' => 'course',
