@@ -3,7 +3,7 @@ DevCore
 
 Very basic Wordpress parent theme just to get you started.
 
-Generates custom post types, custom taxonomies meta boxes.
+Generates custom post types, custom taxonomies, custom post type meta boxes and custom taxonomy metaboxes.
 
 Meta boxes:
 ===========
