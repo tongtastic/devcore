@@ -71,8 +71,9 @@ if(!class_exists('TaxonomyMetaBox')) {
 	                <th scope="row" valign="top"><label for="description"><?php _e('Description', 'Taxonomy Description'); ?></label></th>
 	                <td>
 	                <?php
-	                    $settings = array('wpautop' => true, 'media_buttons' => true, 'quicktags' => true, 'textarea_rows' => '15', 'textarea_name' => 'description' );
-	                    wp_editor(wp_kses_post($tag->description , ENT_QUOTES, 'UTF-8'), 'cat_description', $settings);
+	                    $editor = new MetaBox;
+
+	                    echo $editor->load_editor('cat_description', false, wp_kses_post($tag->description , ENT_QUOTES, 'UTF-8'));
 	                ?>
 	                <br />
 	                <span class="description"><?php _e('The description is not prominent by default; however, some themes may show it.'); ?></span>
@@ -121,78 +122,90 @@ if(!class_exists('TaxonomyMetaBox')) {
 				$data = null;
 			
 				$val = get_option($tax_field['id'].'_'.$taxonomy->term_id);
+
+				$field = new MetaBox;
 			
 				switch ($tax_field['type']) {
 					
 					case 'upload' :
 
-						$data .= '<tr class="form-field"><th scope="row" valign="top"><label for="'.$tax_field['id'].'">'.$tax_field['name'].'</label></th>';
+						$data .= '<tr class="form-field"><th scope="row" valign="top"></th>';
 
 						$data .= '<td>';
 
-						if($val) {
+						$data .= $field->upload($tax_field, $val);
 
-							$data .= '<img src="'.$val.'" style="width:100px;height:auto;" alt="" /><br /><br /><small>To delete image, clear text box below and click "Update".</small><br /><br />';
-
-						}
-
-						$data .= '<input type="text" class="meta-upload" style="width: 100%" name="'.$tax_field['id'].'" id="'.$tax_field['id'].'" value="' . $val . '" /><br /><br />';
-
-						$data .= '<input class="meta-upload-button button-secondary" type="button" value="Upload Image" style="width:120px;" /><br /><br />'. stripslashes($tax_field['desc']).'<br /><br /></td></tr>';
+						$data .= '<br /><br /></td></tr>';
 					
 					break;
 					
 					case 'text' :
 					
-						$data .= '<tr class="form-field"><th scope="row" valign="top"><label for="'.$tax_field['id'].'">'.$tax_field['name'].'</label></th><td><input type="text" class="text_field" style="width: 100%" name="'.$tax_field['id'].'" id="'.$tax_field['id'].'" value="' . $val . '" /><br /><br />'. stripslashes($tax_field['desc']).'<br /><br /></td></tr>';
+						$data .= '<tr class="form-field"><th scope="row" valign="top"></th><td>';
+
+						$data .= $field->text($tax_field, $val);
+
+						$data .= '<br /><br /></td></tr>';
 					
 					break;
 					
 					case 'textarea' :
 					
-						if ($tax_field['rich_editor'] == true) {
+						$data .= '<tr class="form-field"><th scope="row" valign="top"></th><td>';
 
-							$editor = new MetaBox;
-
-							$data .= $editor->load_editor($tax_field['id'], false, $val);
+						$data .= $field->textarea($tax_field, $val);
 					
-						} else {
-					
-							$data .= '<tr class="form-field"><th scope="row" valign="top"><label for="'.$tax_field['id'].'">'.$tax_field['name'].'</label></th><td><textarea class="textarea_field" style="width: 97%" rows="10" name="'.$tax_field['id'].'" id="'.$tax_field['id'].'">' . $val . '</textarea><br /><br />'. stripslashes($tax_field['desc']).'<br /><br /></td></tr>';
-						
-						}
-					
+						$data .= '</td></tr>';
+											
 					break;
 
 					case 'select':
 
-						$data .= '<tr class="form-field"><th scope="row" valign="top"><label for="'.$tax_field['id'].'">'.$tax_field['name'].'</label></th><td>';
-											
-						$data .= '<select name="'.$tax_field['id'].'" id="'.$tax_field['id'].'" style="width: 97%">';
-						
-						$data .= '<option value="">Default</option>';
+						$data .= '<tr class="form-field"><th scope="row" valign="top"></th><td>';
 
-						if(isset($tax_field['options'])) {
+						$data .= $field->select($tax_field, $val);
+					
+						$data .= '</td></tr>';
 						
-							foreach ($tax_field['options'] as $key => $value) {
-							
-								if($value == $val) {
-								
-									$data .= '<option value="'.$value.'" selected="selected">'.$key.'</option>';
-									
-								} else {
-							
-									$data .= '<option value="'.$value.'">'.$key.'</option>';
-								
-								}
-								
-							}
+					break;
 
-						}
+					case 'colorpicker':
+
+						$data .= '<tr class="form-field"><th scope="row" valign="top"></th><td>';
+
+						$data .= $field->colorpicker($tax_field, $val);
+					
+						$data .= '</td></tr>';
 						
-						$data .= '</select><br />'.stripslashes($tax_field['desc']);
+					break;
 
-						$data .= '<br /><br /></td></tr>';
+					case 'datepicker':
+
+						$data .= '<tr class="form-field"><th scope="row" valign="top"></th><td>';
+
+						$data .= $field->datepicker($tax_field, $val);
+					
+						$data .= '</td></tr>';
+						
+					break;
+
+					case 'checkbox':
+
+						$data .= '<tr class="form-field"><th scope="row" valign="top"></th><td>';
+
+						$data .= $field->checkbox($tax_field, $val);
+					
+						$data .= '</td></tr>';
+						
+					break;
+
+					case 'radio':
+
+						$data .= '<tr class="form-field"><th scope="row" valign="top"></th><td>';
+
+						$data .= $field->radio($tax_field, $val);
+					
+						$data .= '</td></tr>';
 						
 					break;
 					
