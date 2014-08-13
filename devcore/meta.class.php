@@ -6,11 +6,6 @@ if(!class_exists('Meta')) {
 
 	class Meta {
 
-		function __construct() {
-
-			add_action('wp_ajax_meta_format_content', array($this, 'format_content'));
-		}
-
 		function text($meta_box_field, $val) {
 
 			$data .= '<div class="'.$this->classes($meta_box_field).'" id="'.$this->id($meta_box_field).'">';

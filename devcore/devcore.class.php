@@ -8,7 +8,13 @@ if(!class_exists('DevCore')) {
 		
 		// fires build functions
 		function init($args) {
-			
+
+			// fire up meta class and hook in AJAX call
+			$metafields = new Meta;
+
+			add_action('wp_ajax_meta_format_content', array($metafields, 'format_content'));
+
+			// build the meta boxes
 			add_action('init', array($this, 'build'));
 
 			// add featured image support to theme

@@ -148,7 +148,7 @@ jQuery(document).ready(function() {
 
 				} else {
 
-					alert('fail');
+					alert(response);
 
 				}
 
