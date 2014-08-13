@@ -1,7 +1,9 @@
 <?php
-// include and initialise the core class
+// include and initialise the core classes
  
 include('devcore/devcore.class.php');
+
+include('devcore/meta.class.php');
 
 include('devcore/metabox.class.php');
 

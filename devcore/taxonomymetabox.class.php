@@ -71,7 +71,7 @@ if(!class_exists('TaxonomyMetaBox')) {
 	                <th scope="row" valign="top"><label for="description"><?php _e('Description', 'Taxonomy Description'); ?></label></th>
 	                <td>
 	                <?php
-	                    $editor = new MetaBox;
+	                    $editor = new Meta;
 
 	                    echo $editor->load_editor('cat_description', false, wp_kses_post($tag->description , ENT_QUOTES, 'UTF-8'));
 	                ?>
@@ -123,7 +123,7 @@ if(!class_exists('TaxonomyMetaBox')) {
 			
 				$val = get_option($tax_field['id'].'_'.$taxonomy->term_id);
 
-				$field = new MetaBox;
+				$field = new Meta;
 			
 				switch ($tax_field['type']) {
 					
