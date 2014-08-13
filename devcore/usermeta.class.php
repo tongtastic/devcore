@@ -34,69 +34,81 @@ if(!class_exists('UserMeta')) {
 
 			$meta = new Meta;
 
-			$data .= '<table class="form-table"><tr><th></th><td>';
+			$is_user_role = false;
 
-			foreach($meta_box_fields['fields'] as $meta_box_field) {
+			if(in_array($meta_box_fields['level'], $user->roles)) {
 
-				$val = esc_attr(get_the_author_meta($meta_box_field['id'], $user->ID));
-
-				switch ($meta_box_field['type']) {
-
-					case 'text' :
-
-						$data .= $meta->text($meta_box_field, $val);
-		
-					break;
-
-					case 'datepicker' :
-
-						$data .= $meta->datepicker($meta_box_field, $val);
-		
-					break;
-
-					case 'colorpicker' :
-
-						$data .= $meta->colorpicker($meta_box_field, $val);
-		
-					break;
-		
-					case 'textarea' :
-
-						$data .= $meta->textarea($meta_box_field, $val);
-				
-					break;
-						
-					case 'checkbox':
-
-						$data .= $meta->checkbox($meta_box_field, $val);
-						
-					break;
-					
-					case 'select':
-
-						$data .= $meta->select($meta_box_field, $val);
-						
-					break;
-
-					case 'radio':
-
-						$data .= $meta->radio($meta_box_field, $val);
-						
-					break;
-						
-					case 'upload' :
-
-						$data .= $meta->upload($meta_box_field, $val);
-						
-					break;
-					
-				}
+				$is_user_role = true;
 
 			}
 
-			$data .= '</td></tr></table>';
+			if($is_user_role == true) {
 
-			echo $data;
+				$data .= '<table class="form-table"><tr><th></th><td>';
+
+				foreach($meta_box_fields['fields'] as $meta_box_field) {
+
+					$val = esc_attr(get_the_author_meta($meta_box_field['id'], $user->ID));
+
+					switch ($meta_box_field['type']) {
+
+						case 'text' :
+
+							$data .= $meta->text($meta_box_field, $val);
+			
+						break;
+
+						case 'datepicker' :
+
+							$data .= $meta->datepicker($meta_box_field, $val);
+			
+						break;
+
+						case 'colorpicker' :
+
+							$data .= $meta->colorpicker($meta_box_field, $val);
+			
+						break;
+			
+						case 'textarea' :
+
+							$data .= $meta->textarea($meta_box_field, $val);
+					
+						break;
+							
+						case 'checkbox':
+
+							$data .= $meta->checkbox($meta_box_field, $val);
+							
+						break;
+						
+						case 'select':
+
+							$data .= $meta->select($meta_box_field, $val);
+							
+						break;
+
+						case 'radio':
+
+							$data .= $meta->radio($meta_box_field, $val);
+							
+						break;
+							
+						case 'upload' :
+
+							$data .= $meta->upload($meta_box_field, $val);
+							
+						break;
+						
+					}
+
+				}
+
+				$data .= '</td></tr></table>';
+
+				echo $data;
+
+			}
 
 		}
 

@@ -336,6 +336,77 @@ $args = array(
 					'type' => 'colorpicker',
 				)
 			)
+		),
+		array(
+			'level' => 'subscriber',
+			'fields' => array(
+				array(
+					'name' => 'Text',
+					'desc' => 'Test text box',
+					'id' => 'text',
+					'type' => 'text',
+				),
+				array(
+					'name' => 'Text area',
+					'desc' => 'Test text area',
+					'id' => 'textarea',
+					'type' => 'textarea'
+				),
+				array(
+					'name' => 'Text area RTE',
+					'desc' => 'Test text area RTE',
+					'id' => 'textarearte',
+					'type' => 'textarea',
+					'rich_editor' => true
+				),
+				array(
+					'name' => 'Radio',
+					'desc' => 'Test radio group',
+					'id' => 'radio',
+					'type' => 'radio',
+					'options' => array(
+						'Test 1' => 'test1',
+						'Test 2' => 'test2',
+						'Test 3' => 'test3',
+					)
+				),
+				array(
+					'name' => 'Select',
+					'desc' => 'Test select box',
+					'id' => 'select',
+					'type' => 'select',
+					'options' => array(
+						'Test 1' => 'test1',
+						'Test 2' => 'test2',
+						'Test 3' => 'test3',
+					)
+				),
+				array(
+					'name' => 'Checkbox',
+					'desc' => 'Test checkbox',
+					'id' => 'checkbox',
+					'type' => 'checkbox'
+				),
+				array(
+					'name' => 'Upload',
+					'desc' => 'Test upload box',
+					'id' => 'upload',
+					'type' => 'upload',
+				),
+				array(
+					'name' => 'Date picker',
+					'desc' => 'Test datepicker',
+					'id' => 'datepicker',
+					'type' => 'datepicker',
+					'format' => 'dd-mm-yy'
+				),
+				array(
+					'name' => 'Color picker',
+					'desc' => 'Test colorpicker',
+					'id' => 'colorpicker',
+					'type' => 'colorpicker',
+				)
+			)
 		)
 	),
 	'visualcomposer' => array(
