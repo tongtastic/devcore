@@ -163,6 +163,18 @@ if(!class_exists('DevCore')) {
 
 			}
 
+			if(isset($items['user_metaboxes'])) {
+
+				$user_metaboxes = new UserMeta;
+
+				foreach($items['user_metaboxes'] as $user_metabox) {
+
+					$user_metaboxes->init($user_metabox);
+
+				}
+
+			}
+
 			if(isset($items['visualcomposer'])) {
 
 				$visualcomposer = new VisualComposer;
