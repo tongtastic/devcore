@@ -9,10 +9,26 @@ if(!class_exists('MetaBox')) {
 		// variable to build metabox structure and items
 		var $meta;
 
+		var $base_fields;
+
 		// when initialsed, empty variable
 		function __construct() {
 
 			$this->meta = array();
+
+			$this->base_fields = array(
+				'text',
+				'repeatable_text',
+				'textarea',
+				'repeatable_textarea',
+				'radio',
+				'select',
+				'checkbox',
+				'upload',
+				'repeatable_upload',
+				'datepicker',
+				'colorpicker'
+			);
 
 		}
 
@@ -97,80 +113,22 @@ if(!class_exists('MetaBox')) {
 
 			$meta = new Meta;
 
+			$base_fields = $this->base_fields;
+
 			foreach ($arr as $meta_box_field) {
 
 				$val = get_post_meta($post->ID, $meta_box_field['id'], true);
-							
-				switch ($meta_box_field['type']) {
 
-					case 'text' :
+				foreach($base_fields as $base_field) {
 
-						$data .= $meta->text($meta_box_field, $val);
-		
-					break;
+					if($meta_box_field['type'] == $base_field) {
 
-					case 'datepicker' :
+						$data .= $meta->$base_field($meta_box_field, $val);
 
-						$data .= $meta->datepicker($meta_box_field, $val);
-		
-					break;
-
-					case 'colorpicker' :
-
-						$data .= $meta->colorpicker($meta_box_field, $val);
-		
-					break;
-		
-					case 'textarea' :
-
-						$data .= $meta->textarea($meta_box_field, $val);
-				
-					break;
-						
-					case 'checkbox':
-
-						$data .= $meta->checkbox($meta_box_field, $val);
-						
-					break;
-					
-					case 'select':
-
-						$data .= $meta->select($meta_box_field, $val);
-						
-					break;
-
-					case 'radio':
-
-						$data .= $meta->radio($meta_box_field, $val);
-						
-					break;
-						
-					case 'upload' :
-
-						$data .= $meta->upload($meta_box_field, $val);
-						
-					break;
-					
-					case 'repeatable-text' :
-
-						$data .= $meta->repeatable_text($meta_box_field, $val);
-						
-					break;
-
-					case 'repeatable-textarea' :
-
-						$data .= $meta->repeatable_textarea($meta_box_field, $val);
-						
-					break;
-
-					case 'repeatable-upload' :
-
-						$data .= $meta->repeatable_upload($meta_box_field, $val);
-						
-					break;
+					}
 
 				}
-
+							
 			}
 			
 			return $data;

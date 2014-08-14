@@ -8,9 +8,21 @@ if(!class_exists('UserMeta')) {
 
 		var $meta;
 
+		var $base_fields;
+
 		function __construct() {
 
 			$this->meta = array();
+
+			$this->base_fields = array(
+				'text',
+				'textarea',
+				'upload',
+				'checkbox',
+				'radio',
+				'colorpicker',
+				'datepicker'
+			);
 
 		}
 
@@ -32,6 +44,8 @@ if(!class_exists('UserMeta')) {
 
 			$meta_box_fields = $this->meta;
 
+			$base_fields = $this->base_fields;
+
 			$meta = new Meta;
 
 			$is_user_role = false;
@@ -46,60 +60,20 @@ if(!class_exists('UserMeta')) {
 
 				$data .= '<table class="form-table"><tr><th></th><td>';
 
+				$data .= print_r($user, true);
+
 				foreach($meta_box_fields['fields'] as $meta_box_field) {
 
 					$val = esc_attr(get_the_author_meta($meta_box_field['id'], $user->ID));
 
-					switch ($meta_box_field['type']) {
+					foreach($base_fields as $base_field) {
 
-						case 'text' :
+						if($meta_box_field['type'] == $base_field) {
 
-							$data .= $meta->text($meta_box_field, $val);
-			
-						break;
+							$data .= $meta->$base_field($meta_box_field, $val);
 
-						case 'datepicker' :
+						}
 
-							$data .= $meta->datepicker($meta_box_field, $val);
-			
-						break;
-
-						case 'colorpicker' :
-
-							$data .= $meta->colorpicker($meta_box_field, $val);
-			
-						break;
-			
-						case 'textarea' :
-
-							$data .= $meta->textarea($meta_box_field, $val);
-					
-						break;
-							
-						case 'checkbox':
-
-							$data .= $meta->checkbox($meta_box_field, $val);
-							
-						break;
-						
-						case 'select':
-
-							$data .= $meta->select($meta_box_field, $val);
-							
-						break;
-
-						case 'radio':
-
-							$data .= $meta->radio($meta_box_field, $val);
-							
-						break;
-							
-						case 'upload' :
-
-							$data .= $meta->upload($meta_box_field, $val);
-							
-						break;
-						
 					}
 
 				}

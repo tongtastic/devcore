@@ -8,9 +8,21 @@ if(!class_exists('TaxonomyMetaBox')) {
 		
 		var $tax_fields;
 
+		var $base_fields;
+
 		function __construct() {
 
 			$this->tax_fields = array();
+
+			$this->base_fields = array(
+				'text',
+				'textarea',
+				'upload',
+				'checkbox',
+				'radio',
+				'colorpicker',
+				'datepicker'
+			);
 
 		}
 
@@ -112,6 +124,8 @@ if(!class_exists('TaxonomyMetaBox')) {
 		function tax_field($taxonomy) {
 		
 			$tax_fields = $this->tax_fields;
+
+			$base_fields = $this->base_fields;
 			
 			wp_enqueue_style('thickbox');
 						
@@ -124,90 +138,20 @@ if(!class_exists('TaxonomyMetaBox')) {
 				$val = get_option($tax_field['id'].'_'.$taxonomy->term_id);
 
 				$field = new Meta;
-			
-				switch ($tax_field['type']) {
-					
-					case 'upload' :
+
+				foreach($base_fields as $base_field) {
+
+					if($tax_field['type'] == $base_field) {
 
 						$data .= '<tr class="form-field"><th scope="row" valign="top"></th>';
 
 						$data .= '<td>';
 
-						$data .= $field->upload($tax_field, $val);
+						$data .= $field->$base_field($tax_field, $val);
 
 						$data .= '<br /><br /></td></tr>';
-					
-					break;
-					
-					case 'text' :
-					
-						$data .= '<tr class="form-field"><th scope="row" valign="top"></th><td>';
 
-						$data .= $field->text($tax_field, $val);
-
-						$data .= '<br /><br /></td></tr>';
-					
-					break;
-					
-					case 'textarea' :
-					
-						$data .= '<tr class="form-field"><th scope="row" valign="top"></th><td>';
-
-						$data .= $field->textarea($tax_field, $val);
-					
-						$data .= '</td></tr>';
-											
-					break;
-
-					case 'select':
-
-						$data .= '<tr class="form-field"><th scope="row" valign="top"></th><td>';
-
-						$data .= $field->select($tax_field, $val);
-					
-						$data .= '</td></tr>';
-						
-					break;
-
-					case 'colorpicker':
-
-						$data .= '<tr class="form-field"><th scope="row" valign="top"></th><td>';
-
-						$data .= $field->colorpicker($tax_field, $val);
-					
-						$data .= '</td></tr>';
-						
-					break;
-
-					case 'datepicker':
-
-						$data .= '<tr class="form-field"><th scope="row" valign="top"></th><td>';
-
-						$data .= $field->datepicker($tax_field, $val);
-					
-						$data .= '</td></tr>';
-						
-					break;
-
-					case 'checkbox':
-
-						$data .= '<tr class="form-field"><th scope="row" valign="top"></th><td>';
-
-						$data .= $field->checkbox($tax_field, $val);
-					
-						$data .= '</td></tr>';
-						
-					break;
-
-					case 'radio':
-
-						$data .= '<tr class="form-field"><th scope="row" valign="top"></th><td>';
-
-						$data .= $field->radio($tax_field, $val);
-					
-						$data .= '</td></tr>';
-						
-					break;
+					}					
 					
 				}
 				

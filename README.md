@@ -156,7 +156,7 @@ $args = array(
 					'name' => 'Repeatable Upload',
 					'desc' => 'Test repeatable upload box',
 					'id' => 'repeatableupload',
-					'type' => 'repeatable-upload',
+					'type' => 'repeatable_upload',
 					'sortable' => true
 				),
 				array(
@@ -176,21 +176,21 @@ $args = array(
 					'name' => 'Repeatable text',
 					'desc' => 'Test repeatable text',
 					'id' => 'repeatabletext',
-					'type' => 'repeatable-text',
+					'type' => 'repeatable_text',
 					'sortable' => true
 				),
 				array(
 					'name' => 'Repeatable textarea',
 					'desc' => 'Test repeatable textarea',
 					'id' => 'repeatabletextarea',
-					'type' => 'repeatable-textarea',
+					'type' => 'repeatable_textarea',
 					'sortable' => true
 				),
 				array(
 					'name' => 'Repeatable textarea RTE',
 					'desc' => 'Test repeatable textarea RTE',
 					'id' => 'repeatabletextarearte',
-					'type' => 'repeatable-textarea',
+					'type' => 'repeatable_textarea',
 					'sortable' => true,
 					'rich_editor' => true
 				)
