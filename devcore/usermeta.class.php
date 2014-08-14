@@ -30,6 +30,8 @@ if(!class_exists('UserMeta')) {
 
 			$this->meta = $meta;
 
+			add_action('profile_update', array($this, 'show_user_fields'));
+
 			add_action('show_user_profile', array($this, 'show_user_fields'));
 
 			add_action('edit_user_profile', array($this, 'show_user_fields'));
@@ -40,7 +42,13 @@ if(!class_exists('UserMeta')) {
 
 		}
 
-		function show_user_fields($user) {
+		function show_user_fields($user = null) {
+
+			if(!$user) {
+
+				$user = wp_get_current_user();
+
+			}
 
 			$meta_box_fields = $this->meta;
 
@@ -59,8 +67,6 @@ if(!class_exists('UserMeta')) {
 			if($is_user_role == true) {
 
 				$data .= '<table class="form-table"><tr><th></th><td>';
-
-				$data .= print_r($user, true);
 
 				foreach($meta_box_fields['fields'] as $meta_box_field) {
 
