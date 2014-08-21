@@ -21,7 +21,8 @@ if(!class_exists('UserMeta')) {
 				'checkbox',
 				'radio',
 				'colorpicker',
-				'datepicker'
+				'datepicker',
+				'select'
 			);
 
 		}
