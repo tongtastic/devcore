@@ -135,9 +135,9 @@ if(!class_exists('DevCore')) {
 
 			if(isset($items['metaboxes'])) {
 
-				$meta_box = new MetaBox;
-
 				foreach($items['metaboxes'] as $metabox) {
+
+					$meta_box = new MetaBox;
 
 					$meta_box->init($metabox);
 
@@ -153,9 +153,9 @@ if(!class_exists('DevCore')) {
 
 			if(isset($items['taxonomy_metaboxes'])) {
 
-				$taxonomy_metaboxes = new TaxonomyMetaBox;
-
 				foreach($items['taxonomy_metaboxes'] as $taxonomy_metabox) {
+
+					$taxonomy_metaboxes = new TaxonomyMetaBox;
 
 					$taxonomy_metaboxes->init($taxonomy_metabox);
 
@@ -165,9 +165,9 @@ if(!class_exists('DevCore')) {
 
 			if(isset($items['user_metaboxes'])) {
 
-				$user_metaboxes = new UserMeta;
-
 				foreach($items['user_metaboxes'] as $user_metabox) {
+
+					$user_metaboxes = new UserMeta;
 
 					$user_metaboxes->init($user_metabox);
 
